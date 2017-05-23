@@ -17,7 +17,8 @@ import Events from './events';
  * @prop {HTMLElement} cachedEls.picker - Selection elements wrapper ('.mtp-picker')[0]
  * @prop {HTMLElement} cachedEls.meridiem - Meridiem selection elements wrapper ('.mtp-meridiem')[0]
  * @prop {HTMLCollection} cachedEls.meridiemSpans - Meridiem selection elements meridiem('span')
- * @prop {HTMLElement} cachedEls.displayTime - Selected time display element ('.mtp-display__time')[0]
+ * @prop {HTMLElement} cachedEls.displayHours - Selected hour display element ('.mtp-display__hours')[0]
+ * @prop {HTMLElement} cachedEls.displayMinutes - Selected minutes display element ('.mtp-display__minutes')[0]
  * @prop {HTMLElement} cachedEls.displayMerdiem - Selected meridiem display element ('.mtp-display__meridiem')[0]
  * @prop {HTMLElement} cachedEls.buttonCancel - Cancel button element ('.mtp-actions__cancel')[0]
  * @prop {HTMLElement} cachedEls.buttonBack - Back button element ('.mtp-actions__back')[0]
@@ -55,7 +56,8 @@ class TimePicker {
         this.cachedEls.picker = this.cachedEls.wrapper.getElementsByClassName('mtp-picker')[0];
         this.cachedEls.meridiem = this.cachedEls.wrapper.getElementsByClassName('mtp-meridiem')[0];
         this.cachedEls.meridiemSpans = this.cachedEls.meridiem.getElementsByTagName('span');
-        this.cachedEls.displayTime = this.cachedEls.wrapper.getElementsByClassName('mtp-display__time')[0];
+        this.cachedEls.displayHours = this.cachedEls.wrapper.getElementsByClassName('mtp-display__hours')[0];
+        this.cachedEls.displayMinutes = this.cachedEls.wrapper.getElementsByClassName('mtp-display__minutes')[0];
         this.cachedEls.displayMeridiem = this.cachedEls.wrapper.getElementsByClassName('mtp-display__meridiem')[0];
         this.cachedEls.buttonCancel = this.cachedEls.picker.getElementsByClassName('mtp-actions__cancel')[0];
         this.cachedEls.buttonBack = this.cachedEls.picker.getElementsByClassName('mtp-actions__back')[0];
@@ -160,12 +162,14 @@ class TimePicker {
     show() {
         const isMilitaryFormat = this.isMilitaryFormat();
 
-        // blur input to prevent onscreen keyboard from displaying
+        // blur input to prevent onscreen keyboard from displaying (mobile hack)
         this.inputEl.blur();
         this.toggleHoursVisible(true, isMilitaryFormat);
         this.toggleMinutesVisible();
-        this.setDisplayTime(isMilitaryFormat ? '00' : '12', 0);
-        this.setDisplayTime('0', 1);
+        this.setDisplayTime({
+            hours: isMilitaryFormat ? '00' : '12',
+            minutes: '0',
+        });
 
         this.cachedEls.body.style.overflow = 'hidden';
         this.cachedEls.displayMeridiem.style.display = isMilitaryFormat ? 'none' : 'inline';
@@ -173,7 +177,7 @@ class TimePicker {
         this.cachedEls.overlay.style.display = 'block';
         this.cachedEls.clockHand.style.height = isMilitaryFormat ? '90px' : '105px';
 
-        this.events.events.trigger('show');
+        this.events.trigger('show');
     }
 
     /**
@@ -240,16 +244,17 @@ class TimePicker {
     /**
      * Set the displayed time, which will be used to fill input value on completetion
      *
-     * @param {string} value Newly selected time value
-     * @param {integer} index Index of value to replace [0 = hours, 1 = minutes]
+     * @param {object} hours: Hour display time, minutes: Minute display time
      * @return {void}
      */
-    setDisplayTime(value, index) {
-        const time = this.cachedEls.displayTime.innerHTML.split(':');
+    setDisplayTime({hours, minutes}) {
+        if (hours) {
+            this.cachedEls.displayHours.innerHTML = hours.trim();
+        }
 
-        // prepend with zero if selecting minutes and value is single digit
-        time[index] = index === 1 && value < 10 ? `0${value}` : value;
-        this.cachedEls.displayTime.innerHTML = time.join(':');
+        if (minutes) {
+            this.cachedEls.displayMinutes.innerHTML = String(minutes < 10 ? `0${minutes}` : minutes).trim();
+        }
     }
 
     /**
@@ -352,9 +357,10 @@ class TimePicker {
      * @return {void}
      */
     timeSelected() {
-        const time = this.cachedEls.displayTime.innerHTML;
+        const hours = this.cachedEls.displayHours.innerHTML;
+        const minutes = this.cachedEls.displayMinutes.innerHTML;
         const meridiem = this.isMilitaryFormat() ? '' : this.cachedEls.displayMeridiem.innerHTML;
-        const timeValue = `${time} ${meridiem}`;
+        const timeValue = `${hours}:${minutes} ${meridiem}`;
 
         this.inputEl.value = timeValue.trim();
         this.inputEl.dispatchEvent(new Event('input'));
@@ -414,7 +420,7 @@ class TimePicker {
 
         const activeIndex = this.getActiveIndex(listEls);
 
-        this.setDisplayTime(newActive.innerHTML, 0);
+        this.setDisplayTime({hours: newActive.innerHTML});
         this.rotateHand(activeIndex);
         this.events.trigger('hourSelected');
     }
@@ -437,7 +443,7 @@ class TimePicker {
         const activeIndex = this.getActiveIndex(listEls);
         const displayTime = activeIndex;
 
-        this.setDisplayTime(displayTime, 1);
+        this.setDisplayTime({minutes: displayTime});
         this.rotateHand(activeIndex, 6);
         this.events.trigger('minuteSelected');
     }

@@ -4,10 +4,13 @@
     line-height: 80px;
     background-color: $c-primary;
     color: $c-text;
-    text-align: center
-}
-.mtp-display__time {
+    text-align: center;
     font-size: 45px;
+}
+.mtp-display__hours, .mtp-display__minutes {
+    font-size: 45px;
+    padding: 0;
+    margin: 0;
 }
 .mtp-display__meridiem {
     font-size: 20px;
