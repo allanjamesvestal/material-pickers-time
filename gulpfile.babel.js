@@ -37,7 +37,7 @@ gulp.task('watch', () => {
     global.watch = true;
 
     tasks.compileJS(jsOpts);
-    tasks.testJS(testOpts);
+    // tasks.testJS(testOpts);
 
     gulp.watch(sassOpts.watch, ['compile:sass']);
     gulp.watch(jsOpts.lintPath, ['lint:js']);
