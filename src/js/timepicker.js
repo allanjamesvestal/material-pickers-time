@@ -30,7 +30,7 @@ import Events from './events';
  * @prop {HTMLCollection} cachedEls.clockMinutesLi - Minute list elements clockMinutes('li')
  * @prop {HTMLCollection} cachedEls.clockMilitaryHoursLi - Militar Hour li elements clockMilitaryHours('li')
  */
-class TimePicker extends Events {
+class TimePicker {
     template = template;
     currentStep = 0;
     defaultOptions = {
@@ -45,7 +45,7 @@ class TimePicker extends Events {
      * @return {TimePicker} New TimePicker instance
      */
     constructor() {
-        super();
+        this.events = new Events();
 
         this.setupTemplate();
 
@@ -74,7 +74,7 @@ class TimePicker extends Events {
     }
 
     /**
-     * Bind event to the input element to open when `focus` event is triggered
+     * Bind event to the input element to open when `focus` event is events.triggered
      *
      * @param {string|HTMLElement} inputEl Selector element to be queried or existing HTMLElement
      * @param {object} options Options to merged with defaults and set to input element object
@@ -173,7 +173,7 @@ class TimePicker extends Events {
         this.cachedEls.overlay.style.display = 'block';
         this.cachedEls.clockHand.style.height = isMilitaryFormat ? '90px' : '105px';
 
-        this.trigger('show');
+        this.events.events.trigger('show');
     }
 
     /**
@@ -198,7 +198,7 @@ class TimePicker extends Events {
 
         this.inputEl.dispatchEvent(new Event('blur'));
         this.resetState();
-        this.trigger('hide');
+        this.events.trigger('hide');
     }
 
     /**
@@ -211,7 +211,7 @@ class TimePicker extends Events {
         event.stopPropagation();
 
         // only allow event based close if event.target contains one of these classes
-        // hack to prevent overlay close event from triggering on all elements because
+        // hack to prevent overlay close event from events.triggering on all elements because
         // they are children of overlay
         const allowedClasses = ['mtp-overlay', 'mtp-actions__cancel'];
         const classList = event.target.classList;
@@ -416,7 +416,7 @@ class TimePicker extends Events {
 
         this.setDisplayTime(newActive.innerHTML, 0);
         this.rotateHand(activeIndex);
-        this.trigger('hourSelected');
+        this.events.trigger('hourSelected');
     }
 
     /**
@@ -439,7 +439,7 @@ class TimePicker extends Events {
 
         this.setDisplayTime(displayTime, 1);
         this.rotateHand(activeIndex, 6);
-        this.trigger('minuteSelected');
+        this.events.trigger('minuteSelected');
     }
 
     /**
