@@ -253,7 +253,9 @@ class TimePicker {
         }
 
         if (minutes) {
-            this.cachedEls.displayMinutes.innerHTML = String(minutes < 10 ? `0${minutes}` : minutes).trim();
+            const min = minutes < 10 ? `0${minutes}` : minutes;
+
+            this.cachedEls.displayMinutes.innerHTML = min.trim;
         }
     }
 
