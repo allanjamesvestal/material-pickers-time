@@ -124,7 +124,8 @@ const template = `
             <div class="mtp-actions">
                 <button type="button" class="mtp-actions__button mtp-actions__cancel">Cancel</button>
                 <button type="button" class="mtp-actions__button mtp-actions__back" style="display:none">Back</button>
-                <button type="button" class="mtp-actions__button mtp-actions__ok">OK</button>
+                <button type="button" class="mtp-actions__button mtp-actions__next">Next</button>
+                <button type="button" class="mtp-actions__button mtp-actions__finish" style="display:none">Done</button>
             </div><!-- END .mtp-actions -->
         </div><!-- END .mtp-picker -->
     </div><!-- END .mtp-wrapper -->

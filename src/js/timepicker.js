@@ -6,7 +6,6 @@ import Events from './events';
  * @class TimePicker
  *
  * @prop {string} template - TimePicker template
- * @prop {number} currentStep - The step the TimePicker is on [0 = hours, 1 = minutes, 2 = finish]
  * @prop {object} defaultOptions - Default config options
  * @prop {string} defaultOptions.timeFormat - 12 or 24 hour format ['standard', 'military']
  * @prop {bool} defaultOptions.autoNext - Auto-next on time element select
@@ -22,7 +21,8 @@ import Events from './events';
  * @prop {HTMLElement} cachedEls.displayMerdiem - Selected meridiem display element ('.mtp-display__meridiem')[0]
  * @prop {HTMLElement} cachedEls.buttonCancel - Cancel button element ('.mtp-actions__cancel')[0]
  * @prop {HTMLElement} cachedEls.buttonBack - Back button element ('.mtp-actions__back')[0]
- * @prop {HTMLElement} cachedEls.buttonOk - Ok button element ('.mtp-actions__ok')[0]
+ * @prop {HTMLElement} cachedEls.buttonNext - Next button element ('.mtp-actions__next')[0]
+ * @prop {HTMLElement} cachedEls.buttonFinish - Finish button element ('.mtp-actions__finish')[0]
  * @prop {HTMLElement} cachedEls.clockHours - Hour elements display wrapper ('.mtp-clock__hours')[0]
  * @prop {HTMLElement} cachedEls.clockMinutes - Minute elements display wrapper ('.mtp-clock__minutes')[0]
  * @prop {HTMLElement} cachedEls.clockMilitaryHours - Military hour elements display wrapper ('.mtp_clock__hours--military')[0]
@@ -33,7 +33,6 @@ import Events from './events';
  */
 class TimePicker {
     template = template;
-    currentStep = 0;
     defaultOptions = {
         timeFormat: 'standard',
         autoNext: false,
@@ -61,7 +60,8 @@ class TimePicker {
         this.cachedEls.displayMeridiem = this.cachedEls.wrapper.getElementsByClassName('mtp-display__meridiem')[0];
         this.cachedEls.buttonCancel = this.cachedEls.picker.getElementsByClassName('mtp-actions__cancel')[0];
         this.cachedEls.buttonBack = this.cachedEls.picker.getElementsByClassName('mtp-actions__back')[0];
-        this.cachedEls.buttonOk = this.cachedEls.picker.getElementsByClassName('mtp-actions__ok')[0];
+        this.cachedEls.buttonNext = this.cachedEls.picker.getElementsByClassName('mtp-actions__next')[0];
+        this.cachedEls.buttonFinish = this.cachedEls.picker.getElementsByClassName('mtp-actions__finish')[0];
         this.cachedEls.clockHours = this.cachedEls.picker.getElementsByClassName('mtp-clock__hours')[0];
         this.cachedEls.clockMinutes = this.cachedEls.picker.getElementsByClassName('mtp-clock__minutes')[0];
         this.cachedEls.clockMilitaryHours = this.cachedEls.picker.getElementsByClassName('mtp-clock__hours-military')[0];
@@ -122,11 +122,11 @@ class TimePicker {
         if (!this.hasSetEvents()) {
             // close
             this.cachedEls.overlay.addEventListener('click', event => this.hideEvent(event));
-            this.cachedEls.buttonCancel.addEventListener('click', event => this.hideEvent(event));
 
-            // next/prev step actions
-            this.cachedEls.buttonOk.addEventListener('click', () => this.changeStep(this.currentStep + 1));
-            this.cachedEls.buttonBack.addEventListener('click', () => this.changeStep(0));
+            this.cachedEls.buttonCancel.addEventListener('click', event => this.hideEvent(event));
+            this.cachedEls.buttonNext.addEventListener('click', () => this.showMinutes());
+            this.cachedEls.buttonBack.addEventListener('click', () => this.showHours());
+            this.cachedEls.buttonFinish.addEventListener('click', () => this.finish());
 
             // meridiem select events
             [].forEach.call(this.cachedEls.meridiemSpans, span => {
@@ -255,7 +255,7 @@ class TimePicker {
         if (minutes) {
             const min = minutes < 10 ? `0${minutes}` : minutes;
 
-            this.cachedEls.displayMinutes.innerHTML = min.trim;
+            this.cachedEls.displayMinutes.innerHTML = min.trim();
         }
     }
 
@@ -276,36 +276,27 @@ class TimePicker {
         this.cachedEls.clockHand.style['-ms-transform'] = styleVal;
     }
 
-    /**
-     * Change to the specified step
-     *
-     * @param {integer} step Index of step to change to
-     * @return {void}
-     */
-    changeStep(step) {
+    showHours() {
         const isMilitaryFormat = this.isMilitaryFormat();
         const hourEls = isMilitaryFormat ? this.cachedEls.clockMilitaryHoursLi : this.cachedEls.clockHoursLi;
-        const minuteEls = this.cachedEls.clockMinutesLi;
-        const changeStepAction = [
-            () => {
-                this.toggleHoursVisible(true, isMilitaryFormat);
-                this.toggleMinutesVisible();
-                this.rotateHand(this.getActiveIndex(hourEls));
-            },
-            () => {
-                this.toggleHoursVisible();
-                this.toggleMinutesVisible(true);
-                this.rotateHand(this.getActiveIndex(minuteEls), 6);
-                this.cachedEls.clockHand.style.height = '115px';
-            },
-            () => {
-                this.timeSelected();
-                this.hide();
-            },
-        ][step];
 
-        this.currentStep = step;
-        changeStepAction();
+        this.toggleHoursVisible(true, isMilitaryFormat);
+        this.toggleMinutesVisible();
+        this.rotateHand(this.getActiveIndex(hourEls));
+    }
+
+    showMinutes() {
+        const minuteEls = this.cachedEls.clockMinutesLi;
+
+        this.toggleHoursVisible();
+        this.toggleMinutesVisible(true);
+        this.rotateHand(this.getActiveIndex(minuteEls), 6);
+        this.cachedEls.clockHand.style.height = '115px';
+    }
+
+    finish() {
+        this.timeSelected();
+        this.hide();
     }
 
     /**
@@ -318,6 +309,7 @@ class TimePicker {
     toggleHoursVisible(isVisible = false, isMilitaryFormat = false) {
         this.cachedEls.clockHours.style.display = isVisible && !isMilitaryFormat ? 'block' : 'none';
         this.cachedEls.clockMilitaryHours.style.display = isVisible && isMilitaryFormat ? 'block' : 'none';
+        this.cachedEls.buttonNext.style.display = !isVisible ? 'inline-block' : 'none';
     }
 
     /**
@@ -329,6 +321,8 @@ class TimePicker {
     toggleMinutesVisible(isVisible = false) {
         this.cachedEls.clockMinutes.style.display = isVisible ? 'block' : 'none';
         this.cachedEls.buttonBack.style.display = isVisible ? 'inline-block' : 'none';
+        this.cachedEls.buttonNext.style.display = !isVisible ? 'inline-block' : 'none';
+        this.cachedEls.buttonFinish.style.display = isVisible ? 'inline-block' : 'none';
     }
 
     /**
