@@ -253,7 +253,7 @@ class TimePicker {
             if (typeof hours === 'string' || hours instanceof String) {
 		this.cachedEls.displayHours.innerHTML = hours.trim();
             } else {
-                this.cachedEls.displayMinutes.innerHTML = hours;
+                this.cachedEls.displayHours.innerHTML = hours;
             }
         }
 
