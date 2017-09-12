@@ -251,7 +251,7 @@ class TimePicker {
         if (hours) {
             // .trim() is not allowed if hours is not recognized as a string,
             if (typeof hours === 'string' || hours instanceof String) {
-	        this.cachedEls.displayHours.innerHTML = hours.trim();
+                this.cachedEls.displayHours.innerHTML = hours.trim();
             } else {
                 this.cachedEls.displayHours.innerHTML = hours;
             }
