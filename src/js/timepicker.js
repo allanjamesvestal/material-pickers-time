@@ -256,8 +256,7 @@ class TimePicker {
                 this.cachedEls.displayHours.innerHTML = hours;
             }
         }
-
-	if (minutes) {
+        if (minutes) {
             const min = minutes < 10 ? `0${minutes}` : minutes;
 
             // .trim() is not allowed if min is not recognized as a string,
