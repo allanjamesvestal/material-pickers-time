@@ -1,6 +1,7 @@
 import template from './template';
 import assign from './assign';
 import Events from './events';
+import '../sass/main.scss';
 
 /**
  * @class TimePicker
