@@ -250,11 +250,11 @@ class TimePicker {
      */
     setDisplayTime({hours, minutes}) {
         if (hours) {
-            this.cachedEls.displayHours.innerHTML = hours.trim();
+            this.cachedEls.displayHours.innerHTML = hours.toString().trim();
         }
 
         if (minutes) {
-            const min = minutes < 10 ? `0${minutes}` : minutes;
+            const min = minutes < 10 ? `0${minutes}` : minutes.toString();
 
             this.cachedEls.displayMinutes.innerHTML = min.trim();
         }
