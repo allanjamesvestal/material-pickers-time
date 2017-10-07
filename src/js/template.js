@@ -130,6 +130,6 @@ const template = `
         </div><!-- END .mtp-picker -->
     </div><!-- END .mtp-wrapper -->
 </div><!-- END .mtp-overlay -->
-`;
+`
 
-export default template;
+export default template

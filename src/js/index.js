@@ -1,8 +1,8 @@
-import TimePicker from './timepicker';
+import TimePicker from './timepicker'
 
 window.onload = () => {
-    const picker = new TimePicker();
+  const picker = new TimePicker()
 
-    picker.bindInput('#bind-one');
-    picker.bindInput('#bind-two', {timeFormat: 'military'});
-};
+  picker.bindInput('#bind-one')
+  picker.bindInput('#bind-two', { timeFormat: 'military' })
+}
