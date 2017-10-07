@@ -6,7 +6,6 @@ const { NODE_ENV = 'development' } = process.env
 const src = resolve(__dirname, 'src')
 const dist = resolve(__dirname, 'dist')
 const devtool = NODE_ENV === 'production' ? false : 'inline-source-map'
-console.log(devtool)
 
 const extractScss = new ExtractTextPlugin({
     filename: 'TimePicker.css',
@@ -15,7 +14,7 @@ const extractScss = new ExtractTextPlugin({
 
 const Config = {
     context: __dirname,
-    entry: resolve(src, 'js/timepicker.js'),
+    entry: resolve(src, 'js/index.js'),
     output: {
         path: dist,
         filename: 'TimePicker.js',
