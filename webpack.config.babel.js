@@ -11,7 +11,6 @@ const extractScss = new ExtractTextPlugin({
     filename: 'TimePicker.css',
 })
 
-
 const Config = {
     context: __dirname,
     entry: resolve(src, 'js/index.js'),
@@ -30,7 +29,7 @@ const Config = {
             exclude: /node_modules/,
             loader: 'babel-loader',
             options: {
-                presets: ['env'],
+                presets: [[ 'env', { modules: false }]],
                 plugins: ['transform-class-properties'],
             }
         }, {
