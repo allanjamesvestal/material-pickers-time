@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import template from './template'
 import assign from './assign'
 import Events from './events'
@@ -317,13 +316,23 @@ class TimePicker {
      */
   setDisplayTime({ hours, minutes }) {
     if (hours) {
-      this.cachedEls.displayHours.innerHTML = hours.toString().trim()
+      // .trim() is not allowed if hours is not recognized as a string,
+      if (typeof hours === 'string' || hours instanceof String) {
+        this.cachedEls.displayHours.innerHTML = hours.trim()
+      } else {
+        this.cachedEls.displayHours.innerHTML = hours
+      }
     }
-
     if (minutes) {
-      const min = minutes < 10 ? `0${minutes}` : minutes.toString()
+      const min = minutes < 10 ? `0${minutes}` : minutes
 
-      this.cachedEls.displayMinutes.innerHTML = min.trim()
+      // .trim() is not allowed if min is not recognized as a string,
+      // ... sometimes (in Safari and Chrome) it is an untrimmable number
+      if (typeof min === 'string' || min instanceof String) {
+        this.cachedEls.displayMinutes.innerHTML = min.trim()
+      } else {
+        this.cachedEls.displayMinutes.innerHTML = min
+      }
     }
   }
 
