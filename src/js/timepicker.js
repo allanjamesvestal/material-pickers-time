@@ -30,7 +30,7 @@ import '../sass/main.scss'
  * @prop {HTMLElement} cachedEls.clockHand - Clock hand display ('.mtp-clock__hand')[0]
  * @prop {HTMLCollection} cachedEls.clockHoursLi - Hour list elements clockHours('li')
  * @prop {HTMLCollection} cachedEls.clockMinutesLi - Minute list elements clockMinutes('li')
- * @prop {HTMLCollection} cachedEls.clockMilitaryHoursLi - Militar Hour li elements clockMilitaryHours('li')
+ * @prop {HTMLCollection} cachedEls.clockMilitaryHoursLi - Military Hour li elements clockMilitaryHours('li')
  */
 class TimePicker {
   template = template
@@ -112,8 +112,6 @@ class TimePicker {
     )
 
     this.setEvents()
-
-    return this
   }
 
   /**
@@ -309,9 +307,10 @@ class TimePicker {
   }
 
   /**
-     * Set the displayed time, which will be used to fill input value on completetion
+     * Set the displayed time, which will be used to fill input value on completion
      *
-     * @param {object} hours: Hour display time, minutes: Minute display time
+     * @param {number|string} hours: Hour display time,
+     * @param {number|string} minutes: Minute display time
      * @return {void}
      */
   setDisplayTime({ hours, minutes }) {
@@ -339,8 +338,8 @@ class TimePicker {
   /**
      * Rotate the hand element to selected time
      *
-     * @param {integer} nodeIndex Index of active element
-     * @param {integer} increment Degree increment elements are on
+     * @param {number} nodeIndex Index of active element
+     * @param {number} increment Degree increment elements are on
      * @return {void}
      */
   rotateHand(nodeIndex = 9, increment = 30) {
@@ -418,7 +417,7 @@ class TimePicker {
      * Get the active time element index
      *
      * @param {HTMLCollection} timeEls Collection of time elements to find active in
-     * @return {integer} Active element index
+     * @return {number} Active element index
      */
   getActiveIndex(timeEls) {
     let activeIndex = 0
@@ -470,7 +469,7 @@ class TimePicker {
   /**
      * Meridiem select event handler
      *
-     * @param {Evenet} event Event object passed from listener
+     * @param {Event} event Event object passed from listener
      * @return {void}
      */
   meridiemSelectEvent(event) {
@@ -529,9 +528,8 @@ class TimePicker {
     this.setActiveEl(containerEl, newActive)
 
     const activeIndex = this.getActiveIndex(listEls)
-    const displayTime = activeIndex
 
-    this.setDisplayTime({ minutes: displayTime })
+    this.setDisplayTime({ minutes: activeIndex })
     this.rotateHand(activeIndex, 6)
     this.events.trigger('minuteSelected')
   }
@@ -542,7 +540,7 @@ class TimePicker {
      * @return {boolean} Is in military time mode
      */
   isMilitaryFormat() {
-    return Boolean(this.inputEl.mtpOptions.timeFormat === 'military')
+    return this.inputEl.mtpOptions.timeFormat === 'military'
   }
 
   /**

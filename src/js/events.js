@@ -1,7 +1,7 @@
 /**
  * @class Events
  *
- * @prop {object} events - Hash table of events and their assigned handler callbacks
+ * @prop {object.<string,function>} events - Hash table of events and their assigned handler callbacks
  */
 export default class Events {
   events = {}
