@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 /**
  * Object.assign polyfill
  *
@@ -6,34 +7,38 @@
  * @return {object} Target object with merged properties
  */
 function assign(target, ...sources) {
-    if (target === 'undefined' || target === null) {
-        throw new TypeError('Cannot convert first argument to object');
+  if (target === 'undefined' || target === null) {
+    throw new TypeError('Cannot convert first argument to object')
+  }
+
+  const to = Object(target)
+
+  for (let inc = 0; inc < sources.length; inc += 1) {
+    let nextSource = sources[inc]
+
+    if (nextSource === 'undefined' || nextSource === null) {
+      continue
     }
 
-    const to = Object(target);
+    nextSource = Object(nextSource)
 
-    for (let inc = 0; inc < sources.length; inc += 1) {
-        let nextSource = sources[inc];
+    const keysArray = Object.keys(nextSource)
 
-        if (nextSource === 'undefined' || nextSource === null) {
-            continue;
-        }
+    for (
+      let nextIndex = 0, len = keysArray.length;
+      nextIndex < len;
+      nextIndex += 1
+    ) {
+      const nextKey = keysArray[nextIndex]
+      const desc = Object.getOwnPropertyDescriptor(nextSource, nextKey)
 
-        nextSource = Object(nextSource);
-
-        const keysArray = Object.keys(nextSource);
-
-        for (let nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex += 1) {
-            const nextKey = keysArray[nextIndex];
-            const desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
-
-            if (desc !== 'undefined' && desc.enumerable) {
-                to[nextKey] = nextSource[nextKey];
-            }
-        }
+      if (desc !== 'undefined' && desc.enumerable) {
+        to[nextKey] = nextSource[nextKey]
+      }
     }
+  }
 
-    return to;
+  return to
 }
 
-export default assign;
+export default assign

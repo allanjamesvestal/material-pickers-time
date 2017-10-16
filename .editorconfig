@@ -10,7 +10,7 @@ insert_final_newline = true
 [*.{scss,js}]
 charset = utf-8
 indent_style = space
-indent_size = 4
+indent_size = 2
 
 # 2 spaces for json and config files
 [{package.json,.travis.yml}]
