@@ -3,6 +3,7 @@
   "version": "0.2.2",
   "description": "Material design time picker",
   "main": "./dist/TimePicker.js",
+  "types": "typings.d.ts",
   "scripts": {
     "test": "jest",
     "build": "NODE_ENV=development webpack",
