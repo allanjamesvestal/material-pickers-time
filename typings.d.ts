@@ -11,9 +11,19 @@ declare module "material-pickers-time" {
         autoNext: boolean;
     }
 
+    export type EventName = 'show' | 'hide' | 'hourSelected' | 'minuteSelected';
+
+    export interface TimePickerEvents
+    {
+        on(event: EventName, handler: ()=>void): void;
+        off(event: EventName): void;
+        trigger(event: EventName, params?: any): void;
+    }
+
     /** Implements a material time picker */
     export interface TimePicker
     {
+        events: TimePickerEvents;
         bindInput(element: string | HTMLElement, options?: TimePickerOptions): void;
         openOnInput(element: string | HTMLElement, options?: TimePickerOptions): void;
     }
