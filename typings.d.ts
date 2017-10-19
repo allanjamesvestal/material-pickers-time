@@ -5,10 +5,10 @@ declare module "material-pickers-time" {
         /**
          * Military is 24H, standard is 12H
          */
-        timeFormat: 'standard'|'military';
+        timeFormat?: 'standard'|'military';
 
         /** This is not yet documented */
-        autoNext: boolean;
+        autoNext?: boolean;
     }
 
     export type EventName = 'show' | 'hide' | 'hourSelected' | 'minuteSelected';
@@ -21,7 +21,7 @@ declare module "material-pickers-time" {
     }
 
     /** Implements a material time picker */
-    export interface TimePicker
+    export class TimePicker
     {
         events: TimePickerEvents;
         bindInput(element: string | HTMLElement, options?: TimePickerOptions): void;
