@@ -1,0 +1,18 @@
+// global
+@import './global/global';
+@import './global/mixins';
+
+// section specific
+@import './sections/display';
+@import './sections/meridiem';
+@import './sections/clock';
+@import './sections/actions';
+
+@mixin mtp-timepicker-theme($mtp-colors)
+{
+    @include mtp-global($mtp-colors);
+    @include mtp-section-display($mtp-colors);
+    @include mtp-section-meridiem($mtp-colors);
+    @include mtp-section-clock($mtp-colors);
+    @include mtp-section-actions($mtp-colors);
+}

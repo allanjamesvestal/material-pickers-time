@@ -1,27 +1,30 @@
-.mtp-open {
-    overflow: hidden;
-    position: relative;
-}
-.mtp-overlay {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 333;
-    background-color: rgba(55, 55, 55, 0.3);
-    overflow: hidden;
-}
-.mtp-wrapper {
-    background-color: #fff;
-    width: 300px;
-    height: auto;
-    margin: 10% auto;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    user-select: none;
-    font-family: 'Roboto', sans-serif;
-}
-.mtp-picker {
-    width: 100%;
-    height: auto;
+@mixin mtp-global($mtp-colors)
+{
+    .mtp-open {
+        overflow: hidden;
+        position: relative;
+    }
+    .mtp-overlay {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 333;
+        background-color: rgba(55, 55, 55, 0.3);
+        overflow: hidden;
+    }
+    .mtp-wrapper {
+        background-color: map-get($mtp-colors, wrapper-background);
+        width: 300px;
+        height: auto;
+        margin: 10% auto;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        user-select: none;
+        font-family: 'Roboto', sans-serif;
+    }
+    .mtp-picker {
+        width: 100%;
+        height: auto;
+    }
 }
