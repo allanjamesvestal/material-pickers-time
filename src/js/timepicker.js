@@ -333,6 +333,11 @@ class TimePicker {
         this.cachedEls.displayMinutes.innerHTML = min
       }
     }
+    
+    const numericHour = parseInt(hours);
+    const numericMinute = parseInt(minutes);
+    
+    
   }
 
   /**
@@ -449,6 +454,12 @@ class TimePicker {
 
     this.inputEl.value = timeValue.trim()
     this.inputEl.dispatchEvent(new Event('input'))
+    this.events.trigger('timeSelected', {
+        hours: hours,
+        minutes: minutes,
+        meridiem: meridiem,
+        value: timeValue
+    });
   }
 
   /**

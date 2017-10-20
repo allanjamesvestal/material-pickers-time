@@ -13,10 +13,19 @@ declare module "material-pickers-time" {
 
     export type EventName = 'show' | 'hide' | 'hourSelected' | 'minuteSelected';
 
+    export interface TimeSelectedEvent
+    {
+        hours: string;
+        minutes: string;
+        meridiem: string;
+        value: string;
+    }
+    
     export interface TimePickerEvents
     {
         on(event: EventName, handler: ()=>void): void;
-        off(event: EventName): void;
+        on(event: 'timeSelected', handler: (event: TimeSelectedEvent)=>void): void;
+        off(event: EventName | 'timeSelected'): void;
         trigger(event: EventName, params?: any): void;
     }
 
