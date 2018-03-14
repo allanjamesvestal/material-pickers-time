@@ -1,8 +1,9 @@
 // colors
 
-$c-mtp-primary-dark: #388E3C !default;
-$c-mtp-primary: #4CAF50 !default;
-$c-mtp-primary-light: #C8E6C9 !default;
+/*
+$c-mtp-primary-dark: #388E3C;
+$c-mtp-primary: #4CAF50;
+$c-mtp-primary-light: #C8E6C9;
 $c-mtp-text: #FFFFFF;
 $c-mtp-accent: #9E9E9E;
 $c-mtp-primary-text: #212121;
@@ -10,11 +11,12 @@ $c-mtp-secondary-text: #727272;
 $c-mtp-divider: #B6B6B6;
 $c-mtp-clock-face: #EFEFEF;
 $c-mtp-wrapper-background: #FFF;
+*/
 
 $mpt-example-colors: (
-    primary-dark: $c-mtp-primary-dark
-    primary: $c-mtp-primary
-    primary-light: $c-mtp-primary-light
+    primary-dark: #388E3C,
+    primary: #4CAF50,
+    primary-light: #C8E6C9,
     text: #FFFFFF,
     accent: #9E9E9E,
     primary-text: #212121,
