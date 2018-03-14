@@ -37,10 +37,11 @@
             </div>
         </div>
 
-        <script src="./dist/TimePickerGlobal.js" type="text/javascript" charset="utf-8"></script>
+        <script src="./dist/TimePicker.js" type="text/javascript" charset="utf-8"></script>
+        <!-- <script src="./dist/TimePickerGlobal.js" type="text/javascript" charset="utf-8"></script> -->
         <script type="text/javascript">//<![CDATA[
             window.onload = function() {
-                const picker = new TimePicker()
+                const picker = new TimePicker.default()
                 picker.bindInput('#bind-one');
                 picker.bindInput('#bind-two', {
                   timeFormat: 'military',

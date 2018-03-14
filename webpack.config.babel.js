@@ -19,8 +19,8 @@ const Config = {
   output: {
     path: dist,
     filename: '[name].js',
-    // library: 'TimePicker',
-    // libraryTarget: 'umd',
+    library: 'TimePicker',
+    libraryTarget: 'umd',
   },
   devtool,
   target: 'web',
