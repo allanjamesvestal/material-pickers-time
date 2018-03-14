@@ -333,11 +333,11 @@ class TimePicker {
         this.cachedEls.displayMinutes.innerHTML = min
       }
     }
-    
+
     const numericHour = parseInt(hours);
     const numericMinute = parseInt(minutes);
-    
-    
+
+
   }
 
   /**
@@ -366,6 +366,8 @@ class TimePicker {
     this.toggleHoursVisible(true, isMilitaryFormat)
     this.toggleMinutesVisible()
     this.rotateHand(this.getActiveIndex(hourEls))
+
+    this.events.trigger('minutesShown')
   }
 
   showMinutes() {
@@ -375,6 +377,8 @@ class TimePicker {
     this.toggleMinutesVisible(true)
     this.rotateHand(this.getActiveIndex(minuteEls), 6)
     this.cachedEls.clockHand.style.height = '115px'
+
+    this.events.trigger('minutesShown')
   }
 
   finish() {
