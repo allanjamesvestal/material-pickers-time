@@ -5,32 +5,6 @@ import '../sass/main.scss'
 
 /**
  * @class TimePicker
- *
- * @prop {string} template - TimePicker template
- * @prop {object} defaultOptions - Default config options
- * @prop {string} defaultOptions.timeFormat - 12 or 24 hour format ['standard', 'military']
- * @prop {bool} defaultOptions.autoNext - Auto-next on time element select
- * @prop {object} cachedEls - Cached elements in template
- * @prop {HTMLElement} cachedEls.body - document.body
- * @prop {HTMLElement} cachedEls.overlay - Overlay element ('.mtp-overlay')[0]
- * @prop {HTMLElement} cachedEls.wrapper - Wrapper element ('.mtp-wrapper')[0]
- * @prop {HTMLElement} cachedEls.picker - Selection elements wrapper ('.mtp-picker')[0]
- * @prop {HTMLElement} cachedEls.meridiem - Meridiem selection elements wrapper ('.mtp-meridiem')[0]
- * @prop {HTMLCollection} cachedEls.meridiemSpans - Meridiem selection elements meridiem('span')
- * @prop {HTMLElement} cachedEls.displayHours - Selected hour display element ('.mtp-display__hours')[0]
- * @prop {HTMLElement} cachedEls.displayMinutes - Selected minutes display element ('.mtp-display__minutes')[0]
- * @prop {HTMLElement} cachedEls.displayMerdiem - Selected meridiem display element ('.mtp-display__meridiem')[0]
- * @prop {HTMLElement} cachedEls.buttonCancel - Cancel button element ('.mtp-actions__cancel')[0]
- * @prop {HTMLElement} cachedEls.buttonBack - Back button element ('.mtp-actions__back')[0]
- * @prop {HTMLElement} cachedEls.buttonNext - Next button element ('.mtp-actions__next')[0]
- * @prop {HTMLElement} cachedEls.buttonFinish - Finish button element ('.mtp-actions__finish')[0]
- * @prop {HTMLElement} cachedEls.clockHours - Hour elements display wrapper ('.mtp-clock__hours')[0]
- * @prop {HTMLElement} cachedEls.clockMinutes - Minute elements display wrapper ('.mtp-clock__minutes')[0]
- * @prop {HTMLElement} cachedEls.clockMilitaryHours - Military hour elements display wrapper ('.mtp_clock__hours--military')[0]
- * @prop {HTMLElement} cachedEls.clockHand - Clock hand display ('.mtp-clock__hand')[0]
- * @prop {HTMLCollection} cachedEls.clockHoursLi - Hour list elements clockHours('li')
- * @prop {HTMLCollection} cachedEls.clockMinutesLi - Minute list elements clockMinutes('li')
- * @prop {HTMLCollection} cachedEls.clockMilitaryHoursLi - Military Hour li elements clockMilitaryHours('li')
  */
 class TimePicker {
   template = template
@@ -41,10 +15,10 @@ class TimePicker {
   cachedEls = {}
 
   /**
-     * Initialize new TimePicker instance
-     *
-     * @return {TimePicker} New TimePicker instance
-     */
+   * Initialize new TimePicker instance
+   *
+   * @return {TimePicker} New TimePicker instance
+   */
   constructor() {
     this.events = new Events()
 
@@ -72,9 +46,9 @@ class TimePicker {
     ;[
       this.cachedEls.displayMinutes,
     ] = this.cachedEls.wrapper.getElementsByClassName('mtp-display__minutes')
-    ;[
-      this.cachedEls.displayMeridiem,
-    ] = this.cachedEls.wrapper.getElementsByClassName('mtp-display__meridiem')
+    // ;[
+    //   this.cachedEls.displayMeridiem,
+    // ] = this.cachedEls.wrapper.getElementsByClassName('mtp-display__meridiem')
     ;[
       this.cachedEls.buttonCancel,
     ] = this.cachedEls.picker.getElementsByClassName('mtp-actions__cancel')
@@ -87,6 +61,14 @@ class TimePicker {
     ;[
       this.cachedEls.buttonFinish,
     ] = this.cachedEls.picker.getElementsByClassName('mtp-actions__finish')
+
+    this.cachedEls.displayGroups = {}
+    ;[
+      this.cachedEls.displayGroups.hours,
+    ] = this.cachedEls.wrapper.getElementsByClassName('hour-group')
+    ;[
+      this.cachedEls.displayGroups.minutes,
+    ] = this.cachedEls.wrapper.getElementsByClassName('minute-group')
     ;[this.cachedEls.clockHours] = this.cachedEls.picker.getElementsByClassName(
       'mtp-clock__hours',
     )
@@ -115,12 +97,12 @@ class TimePicker {
   }
 
   /**
-     * Bind event to the input element to open when `focus` event is events.triggered
-     *
-     * @param {string|HTMLElement} inputEl Selector element to be queried or existing HTMLElement
-     * @param {object} options Options to merged with defaults and set to input element object
-     * @return {void}
-     */
+   * Bind event to the input element to open when `focus` event is events.triggered
+   *
+   * @param {string|HTMLElement} inputEl Selector element to be queried or existing HTMLElement
+   * @param {object} options Options to merged with defaults and set to input element object
+   * @return {void}
+   */
   bindInput(inputEl, options = {}) {
     const element =
       inputEl instanceof HTMLElement ? inputEl : document.querySelector(inputEl)
@@ -130,12 +112,12 @@ class TimePicker {
   }
 
   /**
-     * Open picker with the input provided in context without binding events
-     *
-     * @param {string|HTMLElement} inputEl Selector element to be queried or existing HTMLElement
-     * @param {object} options Options to merged with defaults and set to input element object
-     * @return {void}
-     */
+   * Open picker with the input provided in context without binding events
+   *
+   * @param {string|HTMLElement} inputEl Selector element to be queried or existing HTMLElement
+   * @param {object} options Options to merged with defaults and set to input element object
+   * @return {void}
+   */
   openOnInput(inputEl, options = {}) {
     this.inputEl =
       inputEl instanceof HTMLElement ? inputEl : document.querySelector(inputEl)
@@ -144,21 +126,31 @@ class TimePicker {
   }
 
   /**
-     * Setup the template in DOM if not already
-     *
-     * @return {void}
-     */
+   * Setup the template in DOM if not already
+   *
+   * @return {void}
+   */
   setupTemplate() {
     if (!this.isTemplateInDOM()) {
       document.body.insertAdjacentHTML('beforeend', template)
     }
   }
 
+  highlightHourDisplayGroup() {
+    this.cachedEls.displayGroups.hours.classList.add('active-group')
+    this.cachedEls.displayGroups.minutes.classList.remove('active-group')
+  }
+
+  highlightMinuteDisplayGroup() {
+    this.cachedEls.displayGroups.hours.classList.remove('active-group')
+    this.cachedEls.displayGroups.minutes.classList.add('active-group')
+  }
+
   /**
-     * Set the events on picker elements
-     *
-     * @return {void}
-     */
+   * Set the events on picker elements
+   *
+   * @return {void}
+   */
   setEvents() {
     if (!this.hasSetEvents()) {
       // close
@@ -212,14 +204,22 @@ class TimePicker {
       })
 
       this.cachedEls.wrapper.classList.add('mtp-events-set')
+
+      this.events.on('hoursShown', () => {
+        this.highlightHourDisplayGroup()
+      })
+
+      this.events.on('minutesShown', () => {
+        this.highlightMinuteDisplayGroup()
+      })
     }
   }
 
   /**
-     * Show the picker in the DOM
-     *
-     * @return {void}
-     */
+   * Show the picker in the DOM
+   *
+   * @return {void}
+   */
   show() {
     const isMilitaryFormat = this.isMilitaryFormat()
 
@@ -227,16 +227,18 @@ class TimePicker {
     this.inputEl.blur()
     this.toggleHoursVisible(true, isMilitaryFormat)
     this.toggleMinutesVisible()
-    this.setDisplayTime({
-      hours: isMilitaryFormat ? '00' : '12',
-      minutes: '0',
-    })
+
+    if (this.inputEl.value.length > 0) {
+      this.setTime(this.inputEl.value)
+    } else {
+      this.setDisplayTime({
+        hours: isMilitaryFormat ? '00' : '12',
+        minutes: '0',
+      })
+    }
 
     this.cachedEls.body.style.overflow = 'hidden'
-    this.cachedEls.displayMeridiem.style.display = isMilitaryFormat
-      ? 'none'
-      : 'inline'
-    this.cachedEls.meridiem.style.display = isMilitaryFormat ? 'none' : 'block'
+    this.cachedEls.meridiem.style.visibility = isMilitaryFormat ? 'none' : 'visible'
     this.cachedEls.overlay.style.display = 'block'
     this.cachedEls.clockHand.style.height = isMilitaryFormat ? '90px' : '105px'
 
@@ -244,21 +246,21 @@ class TimePicker {
   }
 
   /**
-     * Event handle for input focus
-     *
-     * @param {Event} event Event object passed from listener
-     * @return {void}
-     */
+   * Event handle for input focus
+   *
+   * @param {Event} event Event object passed from listener
+   * @return {void}
+   */
   showEvent(event) {
     this.inputEl = event.target
     this.show()
   }
 
   /**
-     * Hide the picker in the DOM
-     *
-     * @return {void}
-     */
+   * Hide the picker in the DOM
+   *
+   * @return {void}
+   */
   hide() {
     this.cachedEls.overlay.style.display = 'none'
     this.cachedEls.body.style.overflow = ''
@@ -269,11 +271,11 @@ class TimePicker {
   }
 
   /**
-     * Hide the picker element on the page
-     *
-     * @param {Event} event Event object passed from event listener callback
-     * @return {void}
-     */
+   * Hide the picker element on the page
+   *
+   * @param {Event} event Event object passed from event listener callback
+   * @return {void}
+   */
   hideEvent(event) {
     event.stopPropagation()
 
@@ -292,27 +294,28 @@ class TimePicker {
   }
 
   /**
-     * Reset picker state to defaults
-     *
-     * @return {void}
-     */
+   * Reset picker state to defaults
+   *
+   * @return {void}
+   */
   resetState() {
-    this.currentStep = 0
+    this.currentStep = 'hours'
     this.toggleHoursVisible(true, this.isMilitaryFormat())
     this.toggleMinutesVisible()
     this.cachedEls.clockHoursLi[0].dispatchEvent(new Event('click'))
     this.cachedEls.clockMinutesLi[0].dispatchEvent(new Event('click'))
     this.cachedEls.clockMilitaryHoursLi[0].dispatchEvent(new Event('click'))
     this.cachedEls.meridiemSpans[0].dispatchEvent(new Event('click'))
+    this.highlightHourDisplayGroup()
   }
 
   /**
-     * Set the displayed time, which will be used to fill input value on completion
-     *
-     * @param {number|string} hours: Hour display time,
-     * @param {number|string} minutes: Minute display time
-     * @return {void}
-     */
+   * Set the displayed time, which will be used to fill input value on completion
+   *
+   * @param {number|string} hours: Hour display time,
+   * @param {number|string} minutes: Minute display time
+   * @return {void}
+   */
   setDisplayTime({ hours, minutes }) {
     if (hours) {
       // .trim() is not allowed if hours is not recognized as a string,
@@ -334,19 +337,17 @@ class TimePicker {
       }
     }
 
-    const numericHour = parseInt(hours);
-    const numericMinute = parseInt(minutes);
-
-
+    // const numericHour = parseInt(hours)
+    // const numericMinute = parseInt(minutes)
   }
 
   /**
-     * Rotate the hand element to selected time
-     *
-     * @param {number} nodeIndex Index of active element
-     * @param {number} increment Degree increment elements are on
-     * @return {void}
-     */
+   * Rotate the hand element to selected time
+   *
+   * @param {number} nodeIndex Index of active element
+   * @param {number} increment Degree increment elements are on
+   * @return {void}
+   */
   rotateHand(nodeIndex = 9, increment = 30) {
     // 0 index is 180 degress behind 0 deg
     const rotateDeg = nodeIndex * increment - 180
@@ -387,13 +388,15 @@ class TimePicker {
   }
 
   /**
-     * Toggle hour (both military and standard) clock visiblity in DOM
-     *
-     * @param {boolean} isVisible Is clock face toggled visible or hidden
-     * @param {boolean} isMilitaryFormat Is using military hour format
-     * @return {void}
-     */
+   * Toggle hour (both military and standard) clock visiblity in DOM
+   *
+   * @param {boolean} isVisible Is clock face toggled visible or hidden
+   * @param {boolean} isMilitaryFormat Is using military hour format
+   * @return {void}
+   */
   toggleHoursVisible(isVisible = false, isMilitaryFormat = false) {
+    if (isVisible) this.currentStep = 'hours'
+
     this.cachedEls.clockHours.style.display =
       isVisible && !isMilitaryFormat ? 'block' : 'none'
     this.cachedEls.clockMilitaryHours.style.display =
@@ -404,12 +407,14 @@ class TimePicker {
   }
 
   /**
-     * Toggle minute clock visiblity in DOM
-     *
-     * @param {boolean} isVisible Is clock face toggled visible or hidden
-     * @return {void}
-     */
+   * Toggle minute clock visiblity in DOM
+   *
+   * @param {boolean} isVisible Is clock face toggled visible or hidden
+   * @return {void}
+   */
   toggleMinutesVisible(isVisible = false) {
+    if (isVisible) this.currentStep = 'minutes'
+
     this.cachedEls.clockMinutes.style.display = isVisible ? 'block' : 'none'
     this.cachedEls.buttonBack.style.display = isVisible
       ? 'inline-block'
@@ -423,11 +428,11 @@ class TimePicker {
   }
 
   /**
-     * Get the active time element index
-     *
-     * @param {HTMLCollection} timeEls Collection of time elements to find active in
-     * @return {number} Active element index
-     */
+   * Get the active time element index
+   *
+   * @param {HTMLCollection} timeEls Collection of time elements to find active in
+   * @return {number} Active element index
+   */
   getActiveIndex(timeEls) {
     let activeIndex = 0
     ;[].some.call(timeEls, (timeEl, index) => {
@@ -444,35 +449,38 @@ class TimePicker {
   }
 
   /**
-     * Set selected time to input element
-     *
-     * @return {void}
-     */
+   * Set selected time to input element
+   *
+   * @return {void}
+   */
   timeSelected() {
     const hours = this.cachedEls.displayHours.innerHTML
     const minutes = this.cachedEls.displayMinutes.innerHTML
     const meridiem = this.isMilitaryFormat()
       ? ''
-      : this.cachedEls.displayMeridiem.innerHTML
+      : Array.from(this.cachedEls.meridiemSpans).find(i =>
+          i.classList.contains('mtp-meridiem--active'),
+        ).innerText
+
     const timeValue = `${hours}:${minutes} ${meridiem}`
 
     this.inputEl.value = timeValue.trim()
     this.inputEl.dispatchEvent(new Event('input'))
     this.events.trigger('timeSelected', {
-        hours: hours,
-        minutes: minutes,
-        meridiem: meridiem,
-        value: timeValue
-    });
+      hours,
+      minutes,
+      meridiem,
+      value: timeValue,
+    })
   }
 
   /**
-     * Set active clock face element
-     *
-     * @param {Element} containerEl New active elements .parentNode
-     * @param {Element} activeEl Element to set active
-     * @return {void}
-     */
+   * Set active clock face element
+   *
+   * @param {Element} containerEl New active elements .parentNode
+   * @param {Element} activeEl Element to set active
+   * @return {void}
+   */
   setActiveEl(containerEl, activeEl) {
     const activeClassName = 'mtp-clock--active'
     const currentActive = containerEl.getElementsByClassName(activeClassName)[0]
@@ -482,13 +490,13 @@ class TimePicker {
   }
 
   /**
-     * Meridiem select event handler
-     *
-     * @param {Event} event Event object passed from listener
-     * @return {void}
-     */
+   * Meridiem select event handler
+   *
+   * @param {Event} event Event object passed from listener
+   * @return {void}
+   */
   meridiemSelectEvent(event) {
-    const activeClassName = 'mtp-clock--active'
+    const activeClassName = 'mtp-meridiem--active'
     const element = event.target
     const currentActive = this.cachedEls.meridiem.getElementsByClassName(
       activeClassName,
@@ -498,18 +506,19 @@ class TimePicker {
     if (!currentActive.isEqualNode(element)) {
       currentActive.classList.remove(activeClassName)
       element.classList.add(activeClassName)
-      this.cachedEls.displayMeridiem.innerHTML = value
+      // this.cachedEls.displayMeridiem.innerHTML = 'a.m.'
+      // this.cachedEls.displayMeridiem.innerHTML = value
     }
   }
 
   /**
-     * Hour select event handler
-     *
-     * @param {Event} event Event object passed from listener
-     * @param {HTMLElement} containerEl Element containing time list elements
-     * @param {HTMLCollection} listEls Collection of list elements
-     * @return {void}
-     */
+   * Hour select event handler
+   *
+   * @param {Event} event Event object passed from listener
+   * @param {HTMLElement} containerEl Element containing time list elements
+   * @param {HTMLCollection} listEls Collection of list elements
+   * @return {void}
+   */
   hourSelectEvent(event, containerEl, listEls) {
     event.stopPropagation()
 
@@ -528,13 +537,13 @@ class TimePicker {
   }
 
   /**
-     * Hour select event handler
-     *
-     * @param {Event} event Event object passed from listener
-     * @param {HTMLElement} containerEl Element containing time list elements
-     * @param {HTMLCollection} listEls Collection of list elements
-     * @return {void}
-     */
+   * Hour select event handler
+   *
+   * @param {Event} event Event object passed from listener
+   * @param {HTMLElement} containerEl Element containing time list elements
+   * @param {HTMLCollection} listEls Collection of list elements
+   * @return {void}
+   */
   minuteSelectEvent(event, containerEl, listEls) {
     event.stopPropagation()
 
@@ -550,28 +559,84 @@ class TimePicker {
   }
 
   /**
-     * Check if picker set to military time mode
-     *
-     * @return {boolean} Is in military time mode
-     */
+   * Check if picker set to military time mode
+   *
+   * @return {boolean} Is in military time mode
+   */
   isMilitaryFormat() {
     return this.inputEl.mtpOptions.timeFormat === 'military'
   }
 
+  setTime(timeString) {
+    // this.inputEl.mtpOptions.initialValue
+    const overallComponents = timeString.split(' ')
+    const timeParts = overallComponents[0].split(':').map(i => parseInt(i, 10))
+
+    // First, set the display time (at the top) correctly.
+    this.setDisplayTime({ hours: timeParts[0], minutes: timeParts[1] })
+
+    let hoursIndex = timeParts[0]
+
+    if (this.isMilitaryFormat()) {
+      hoursIndex = timeParts[0] > 12 ? timeParts[0] - 12 : timeParts[0] + 12
+
+      if (hoursIndex === 12) hoursIndex = 0
+      if (hoursIndex === 24) hoursIndex = 12
+    } else {
+      const activeMeridianClass = 'mtp-meridiem--active'
+
+      const meridiem = overallComponents[1]
+
+      const currentMeridiem = this.cachedEls.meridiem.getElementsByClassName(
+        activeMeridianClass,
+      )[0]
+
+      const correctMeridiem = Array.from(this.cachedEls.meridiemSpans).find(
+        i => i.innerText === meridiem,
+      )
+
+      currentMeridiem.classList.remove(activeMeridianClass)
+      correctMeridiem.classList.add(activeMeridianClass)
+    }
+
+    const hoursLI = this.isMilitaryFormat()
+      ? this.cachedEls.clockMilitaryHoursLi
+      : this.cachedEls.clockHoursLi
+    const minutesLI = this.cachedEls.clockMinutesLi
+
+    // Clear existing active hours, then set the correct hours value.
+    Array.from(hoursLI)
+      .filter(i => i.classList.contains('mtp-clock--active'))
+      .forEach(i => i.classList.remove('mtp-clock--active'))
+    hoursLI[hoursIndex].classList.add('mtp-clock--active')
+
+    // Clear existing active minutes, then set the correct minute value.
+    Array.from(minutesLI)
+      .filter(i => i.classList.contains('mtp-clock--active'))
+      .forEach(i => i.classList.remove('mtp-clock--active'))
+    minutesLI[timeParts[1]].classList.add('mtp-clock--active')
+
+    if (this.currentStep === 'hours') {
+      this.rotateHand(this.getActiveIndex(hoursLI))
+    } else {
+      this.rotateHand(this.getActiveIndex(minutesLI))
+    }
+  }
+
   /**
-     * Check if picker object has already set events on picker elements
-     *
-     * @return {boolean} Has events been set on picker elements
-     */
+   * Check if picker object has already set events on picker elements
+   *
+   * @return {boolean} Has events been set on picker elements
+   */
   hasSetEvents() {
     return this.cachedEls.wrapper.classList.contains('mtp-events-set')
   }
 
   /**
-     * Check if template has already been appended to DOM
-     *
-     * @return {boolean} Is template in DOM
-     */
+   * Check if template has already been appended to DOM
+   *
+   * @return {boolean} Is template in DOM
+   */
   isTemplateInDOM() {
     return Boolean(document.getElementsByClassName('mtp-overlay')[0])
   }
