@@ -1,5 +1,5 @@
 {
-  "name": "material-pickers-time",
+  "name": "ajv-material-pickers-time",
   "version": "0.2.4",
   "description": "Material design time picker",
   "main": "./dist/TimePicker.js",
