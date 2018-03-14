@@ -2,14 +2,23 @@ const template = `
 <div class="mtp-overlay" style="display:none">
     <div class="mtp-wrapper">
         <div class="mtp-display">
-            <span class="mtp-display__hours">12</span>:<span class="mtp-display__minutes">00</span>
-            <span class="mtp-display__meridiem">a.m.</span>
-        </div><!-- END .mtp-display -->
-        <div class="mtp-picker">
+            <span class="mtp-time-group">
+                <span class="hour-group active-group">
+                    <span class="mtp-display__hours">12</span>
+                    <span class="mtp-display__spacer">&hairsp;</span>
+                </span>
+                <span class="minute-group">
+                    <span class="mtp-display__separator">:</span>
+                    <span class="mtp-display__spacer">&hairsp;</span>
+                    <span class="mtp-display__minutes">00</span>
+                </span>
+            </span>
             <div class="mtp-meridiem">
-                <span class="mtp-clock--active">a.m.</span>
+                <span class="mtp-meridiem--active">a.m.</span>
                 <span>p.m.</span>
             </div><!-- END .mtp-meridiem -->
+        </div><!-- END .mtp-display -->
+        <div class="mtp-picker">
             <div class="mtp-clock">
                 <div class="mtp-clock__center"></div>
                 <div class="mtp-clock__hand"></div>
