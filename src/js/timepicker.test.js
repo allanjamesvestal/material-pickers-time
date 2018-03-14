@@ -949,7 +949,7 @@ describe('TimePicker', () => {
       picker.inputEl = document.createElement('input')
       picker.cachedEls.displayHours.innerHTML = '11'
       picker.cachedEls.displayMinutes.innerHTML = '00'
-      picker.cachedEls.displayMeridiem.innerHTML = 'pm'
+      picker.cachedEls.displayMeridiem.innerHTML = 'p.m.'
       isMilitaryFormatStub = sinon.stub(picker, 'isMilitaryFormat')
       dispatchEventSpy = sinon.spy(picker.inputEl, 'dispatchEvent')
     })
@@ -959,12 +959,12 @@ describe('TimePicker', () => {
       dispatchEventSpy.restore()
     })
 
-    test(`should set displayTime.innerHTML and displayMeridiem.innerHTML to 
+    test(`should set displayTime.innerHTML and displayMeridiem.innerHTML to
            inputEl.value if isMilitaryFormat is true`, () => {
       isMilitaryFormatStub.onCall(0).returns(false)
 
       picker.timeSelected()
-      expect(picker.inputEl.value).toBe('11:00 pm')
+      expect(picker.inputEl.value).toBe('11:00 p.m.')
     })
 
     test('should set displayTime.innerHTML to inputEl.value if isMilitaryFormat is true', () => {
@@ -1044,11 +1044,11 @@ describe('TimePicker', () => {
       const { meridiemSpans } = picker.cachedEls
       const event = { target: meridiemSpans[1] }
 
-      meridiemSpans[1].innerHTML = 'am'
+      meridiemSpans[1].innerHTML = 'a.m.'
       meridiemSpans[0].classList.add('mtp-clock--active')
       picker.meridiemSelectEvent(event)
 
-      expect(picker.cachedEls.displayMeridiem.innerHTML).toBe('am')
+      expect(picker.cachedEls.displayMeridiem.innerHTML).toBe('a.m.')
     })
 
     test('should do nothing if current active elemtn is equal node of event.target', () => {

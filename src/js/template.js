@@ -3,12 +3,12 @@ const template = `
     <div class="mtp-wrapper">
         <div class="mtp-display">
             <span class="mtp-display__hours">12</span>:<span class="mtp-display__minutes">00</span>
-            <span class="mtp-display__meridiem">am</span>
+            <span class="mtp-display__meridiem">a.m.</span>
         </div><!-- END .mtp-display -->
         <div class="mtp-picker">
             <div class="mtp-meridiem">
-                <span class="mtp-clock--active">am</span>
-                <span>pm</span>
+                <span class="mtp-clock--active">a.m.</span>
+                <span>p.m.</span>
             </div><!-- END .mtp-meridiem -->
             <div class="mtp-clock">
                 <div class="mtp-clock__center"></div>
