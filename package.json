@@ -1,6 +1,6 @@
 {
   "name": "material-pickers-time",
-  "version": "0.2.2",
+  "version": "0.2.4",
   "description": "Material design time picker",
   "main": "./dist/TimePicker.js",
   "types": "typings.d.ts",
