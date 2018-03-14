@@ -238,7 +238,9 @@ class TimePicker {
     }
 
     this.cachedEls.body.style.overflow = 'hidden'
-    this.cachedEls.meridiem.style.visibility = isMilitaryFormat ? 'none' : 'visible'
+    this.cachedEls.meridiem.style.visibility = isMilitaryFormat
+      ? 'none'
+      : 'visible'
     this.cachedEls.overlay.style.display = 'block'
     this.cachedEls.clockHand.style.height = isMilitaryFormat ? '90px' : '105px'
 
@@ -317,7 +319,7 @@ class TimePicker {
    * @return {void}
    */
   setDisplayTime({ hours, minutes }) {
-    if (hours) {
+    if (typeof hours !== 'undefined' && Number.isNaN(hours) === false) {
       // .trim() is not allowed if hours is not recognized as a string,
       if (typeof hours === 'string' || hours instanceof String) {
         this.cachedEls.displayHours.innerHTML = hours.trim()
@@ -325,7 +327,8 @@ class TimePicker {
         this.cachedEls.displayHours.innerHTML = hours
       }
     }
-    if (minutes) {
+
+    if (typeof minutes !== 'undefined' && Number.isNaN(minutes) === false) {
       const min = minutes < 10 ? `0${minutes}` : minutes
 
       // .trim() is not allowed if min is not recognized as a string,
@@ -501,13 +504,10 @@ class TimePicker {
     const currentActive = this.cachedEls.meridiem.getElementsByClassName(
       activeClassName,
     )[0]
-    const value = element.innerHTML
 
     if (!currentActive.isEqualNode(element)) {
       currentActive.classList.remove(activeClassName)
       element.classList.add(activeClassName)
-      // this.cachedEls.displayMeridiem.innerHTML = 'a.m.'
-      // this.cachedEls.displayMeridiem.innerHTML = value
     }
   }
 
@@ -580,7 +580,6 @@ class TimePicker {
     if (this.isMilitaryFormat()) {
       hoursIndex = timeParts[0] > 12 ? timeParts[0] - 12 : timeParts[0] + 12
 
-      if (hoursIndex === 12) hoursIndex = 0
       if (hoursIndex === 24) hoursIndex = 12
     } else {
       const activeMeridianClass = 'mtp-meridiem--active'
@@ -598,6 +597,8 @@ class TimePicker {
       currentMeridiem.classList.remove(activeMeridianClass)
       correctMeridiem.classList.add(activeMeridianClass)
     }
+
+    if (hoursIndex === 12) hoursIndex = 0
 
     const hoursLI = this.isMilitaryFormat()
       ? this.cachedEls.clockMilitaryHoursLi
