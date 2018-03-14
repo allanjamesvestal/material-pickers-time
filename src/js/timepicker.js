@@ -367,7 +367,7 @@ class TimePicker {
     this.toggleMinutesVisible()
     this.rotateHand(this.getActiveIndex(hourEls))
 
-    this.events.trigger('minutesShown')
+    this.events.trigger('hoursShown')
   }
 
   showMinutes() {
