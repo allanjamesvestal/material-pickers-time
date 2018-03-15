@@ -28,8 +28,10 @@
                     width: $itemSize;
                     height: $itemSize;
                     line-height: $itemSize;
-                    top: 122.5px;
-                    left: 122.5px;
+                    // top: 122.5px;
+                    // left: 122.5px;
+                    top: 131px;
+                    left: 131px;
                 }
             } @else {
                 $tempRot: $rot;
@@ -39,8 +41,10 @@
                     width: 15px;
                     height: 15px;
                     line-height: 15px;
-                    top: 130px;
-                    left: 130px;
+                    // top: 130px;
+                    // left: 130px;
+                    top: 138.5px;
+                    left: 138.5px;
                 }
             }
 

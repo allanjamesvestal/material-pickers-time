@@ -1,10 +1,10 @@
 @mixin mtp-section-clock($mtp-colors) {
     .mtp-clock {
-        width: 275px;
-        height: 275px;
+        width: 292px;
+        height: 292px;
         border-radius: 50%;
         background-color: map-get($mtp-colors, clock-face);
-        margin: 15px auto;
+        margin: 0 auto;
         position: relative;
     }
     .mtp-clock__time {
@@ -26,21 +26,27 @@
     }
     .mtp-clock__hours, .mtp-clock__hours--inner {
         li {
-            top: 122.5px;
-            left: 122.5px;
+            // top: 122.5px;
+            // left: 122.5px;
+            left: 131px;
+            top: 131px;
         }
     }
     .mtp-clock__hours {
-        @include clockHours(225px, 30px);
+        // @include clockHours(225px, 30px);
+        @include clockHours(242px, 30px);
+        color: #757575;
         font-size: 16px;
     }
     .mtp-clock__hours--inner {
-        @include clockHours(150px, 30px);
+        // @include clockHours(150px, 30px);
+        @include clockHours(167px, 30px);
         position: absolute;
         font-size: 16px;
     }
     .mtp-clock__minutes {
-        @include clockMinutes(225px, 30px);
+        // @include clockMinutes(225px, 30px);
+        @include clockMinutes(242px, 30px);
         font-size: 16px;
 
         li:not(:nth-child(5n+1)) {
@@ -61,9 +67,12 @@
         position: absolute;
         background-color: map-get($mtp-colors, primary);
         width: 2px;
-        height: 95px;
-        top: 136.5px;
-        left: 136.5px;
+        // height: 95px;
+        height: 112px;
+        // top: 136.5px;
+        // left: 136.5px;
+        left: 145px;
+        top: 145px;
         transform-origin: 1px 1px;
         transform: rotate(180deg);
     }
@@ -73,7 +82,10 @@
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        top: 133.5px;
-        left: 133.5px;
+        // top: 133.5px;
+        // left: 133.5px;
+
+        left: 142px;
+        top: 142px;
     }
 }

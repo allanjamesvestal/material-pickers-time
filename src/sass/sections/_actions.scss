@@ -1,22 +1,60 @@
 @mixin mtp-section-actions($mtp-colors) {
     .mtp-actions {
-        padding: 15px 0;
-        margin: 0 10px;
+        box-sizing: border-box;
+        height: 48px;
+        margin: 6px 6px 0;
+        padding: 0;
         text-align: right;
     }
+
     .mtp-actions__button {
-        text-transform: uppercase;
-        font-size: 16px;
-        background-color: map-get($mtp-colors, background);
         border: none;
-        padding: 5px 15px;
-        text-align: right;
+        border-radius: 2px;
+        color: map-get($mtp-colors, primary);
+        cursor: pointer;
+        display: inline-block;
+        font-family: $font-family-sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        height: 36px;
+        letter-spacing: calc(0.04 * 16px);
+        line-height: 24px;
+        margin: 6px 0 6px 6px;
+        min-width: 54px;
+        overflow: hidden;
+        padding: 6px 16px;
+        text-align: center;
+        text-decoration: none;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        user-select: none;
+        white-space: nowrap;
+
+        -moz-osx-font-smoothing: grayscale;
+        -moz-user-select: none;
+
+        -ms-user-select: none;
+
+        -webkit-appearance: none;
+        -webkit-box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+
+        // text-transform: uppercase;
+        // font-size: 16px;
+        // background-color: map-get($mtp-colors, background);
+        // border: none;
+        // padding: 5px 15px;
+        // text-align: right;
 
         &:hover {
+            background-color: lighten(map-get($mtp-colors, primary), 41%);
             cursor: pointer;
         }
 
         &:focus {
+            background-color: lighten(map-get($mtp-colors, primary), 34%);
             outline: 0;
         }
     }

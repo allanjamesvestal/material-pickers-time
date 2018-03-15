@@ -41,6 +41,12 @@ class TimePicker {
       'span',
     )
     ;[
+      this.cachedEls.displayHourGroup,
+    ] = this.cachedEls.wrapper.getElementsByClassName('hour-group')
+    ;[
+      this.cachedEls.displayMinuteGroup,
+    ] = this.cachedEls.wrapper.getElementsByClassName('minute-group')
+    ;[
       this.cachedEls.displayHours,
     ] = this.cachedEls.wrapper.getElementsByClassName('mtp-display__hours')
     ;[
@@ -153,6 +159,14 @@ class TimePicker {
    */
   setEvents() {
     if (!this.hasSetEvents()) {
+      this.cachedEls.displayHourGroup.addEventListener('click', () => {
+        if (this.currentStep !== 'hours') this.showHours()
+      })
+
+      this.cachedEls.displayMinuteGroup.addEventListener('click', () => {
+        if (this.currentStep !== 'minutes') this.showMinutes()
+      })
+
       // close
       this.cachedEls.overlay.addEventListener('click', event =>
         this.hideEvent(event),
@@ -242,7 +256,7 @@ class TimePicker {
       ? 'none'
       : 'visible'
     this.cachedEls.overlay.style.display = 'block'
-    this.cachedEls.clockHand.style.height = isMilitaryFormat ? '90px' : '105px'
+    this.cachedEls.clockHand.style.height = isMilitaryFormat ? '107px' : '122px'
 
     this.events.trigger('show')
   }
@@ -526,7 +540,7 @@ class TimePicker {
     const parentEl = newActive.parentElement
     const isInner = parentEl.classList.contains('mtp-clock__hours--inner')
 
-    this.cachedEls.clockHand.style.height = isInner ? '90px' : '105px'
+    this.cachedEls.clockHand.style.height = isInner ? '107px' : '122px'
     this.setActiveEl(containerEl, newActive)
 
     const activeIndex = this.getActiveIndex(listEls)
