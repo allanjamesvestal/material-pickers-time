@@ -259,6 +259,18 @@ class TimePicker {
     this.cachedEls.clockHand.style.height = isMilitaryFormat ? '107px' : '122px'
 
     this.events.trigger('show')
+
+    this.keydownFn = event => {
+      if (event.keyCode === 27) {
+        this.hide()
+      }
+
+      // if (event.keyCode === 39) {} // go to the right
+
+      // if (event.keyCode === 37) {} // go to the left
+    }
+
+    window.addEventListener('keydown', this.keydownFn)
   }
 
   /**
@@ -284,6 +296,7 @@ class TimePicker {
     this.inputEl.dispatchEvent(new Event('blur'))
     this.resetState()
     this.events.trigger('hide')
+    window.removeEventListener('keydown', this.keydownFn)
   }
 
   /**
