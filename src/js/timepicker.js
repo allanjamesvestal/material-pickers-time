@@ -261,7 +261,8 @@ class TimePicker {
     this.events.trigger('show')
 
     this.keydownFn = event => {
-      if (event.keyCode === 27) {
+      const hideKeys = [9, 27] // tab, escape keys
+      if (hideKeys.includes(event.keyCode)) {
         this.hide()
       }
 
